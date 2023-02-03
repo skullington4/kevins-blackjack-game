@@ -1,0 +1,46 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    flex-direction: column;
+
+}
+
+main {
+    display: flex;
+    grid-template-columns: 20vmin auto 20vmin auto 20vmin 20vmin;
+    grid-template-rows: 30vmin 30vmin 30vmin;
+}
+
+main * {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+  button {
+    justify-self: center;
+    width: 15vmin;
+    margin: 2vmin;
+    background-color: white;
+    color: black;
+    border: 1vmin solid black;
+    border-radius: 4vmin;
+    font-size: 4vmin;
+    outline: none;
+  }
+  
+  button:hover {
+    background-color: black;
+    color: white;
+  }
+
+
+div {
+    background-color: gray;
+}
+
+
