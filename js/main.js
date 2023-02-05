@@ -1,4 +1,5 @@
-import "./cardsMain";
+//require ("./cardsMain");
+
 /*------------ Constants --------------*/
 const PLAYER = {
     p: '1',
@@ -20,39 +21,34 @@ let wager = 0;
 let turn = 1;
 let pHand = [];
 let cHand = [];
-let shuffledDeck = [];
 let pBlackjack = null;
 let cBlackjack = null;
 
-
 /*------------ cached elements --------------*/
-const winnerEl = document.getElementById('#winnerDisplay');
-const playerScoreEl = document.getElementById('#pScore');
-const computerScoreEl = document.getElementById('#cScore');
-const wagerEl = document.getElementById('#wager');
-const playerMoneyEl = document.getElementById('#pMoney');
-const computerCardsEl = document.getElementById('#cCards');
-const playerCardsEl = document.getElementById('#pCards');
-const hitEl = document.getElementById('#hit');
-const StayEl = document.getElementById('#stay');
-const StartGameEl = document.getElementById('#placeWager');
+const winnerEl = document.getElementById('winnerDisplay');
+const playerScoreEl = document.getElementById('pScore');
+const computerScoreEl = document.getElementById('cScore');
+const wagerEl = document.getElementById('wager');
+const playerMoneyEl = document.getElementById('pMoney');
+const computerCardsEl = document.getElementById('cCardHolder');
+const playerCardsEl = document.getElementById('pCardHolder');
+const hitButton = document.getElementById('hit');
+const stayButton = document.getElementById('stay');
+const startButton = document.getElementById('placeWager');
 
 
 /*------------ Event listeners --------------*/
-StartGameEl.addEventListener('click', playHand)
-
+startButton.addEventListener('click', playHand);
+hitButton.addEventListener('click', handleHit);
+stayButton.addEventListener('click', handleStay);
 
 /*------------ Functions --------------*/
-
 init();
-
 
 function init() {
     turn = 1;
-
+    money = 5000;
     winner = null;
-    pHand = [null, null, null, null, null, null, null, null, null, null];
-    cHand = [null, null, null, null, null, null, null, null, null, null];
     winnerEl.style.visibility = "hidden";
     shuffledDeck = new getNewShuffledDeck();
     render();
@@ -64,42 +60,78 @@ function render() {
 }
 
 
-function renderHand(hand, player) {
+function renderHand() {
     // This function should interate through each players hand,
     // update their respective score values, and updates the score divs
-    let cardsInHand = "";
-    hand.forEach(function(card) {
-        cardsInHand += `<div class="card ${card.face}"></div>`;
-      });
+    playerCardsEl.innerHTML = '';
+    let cardsHtml = '';
+    pHand.forEach(function(card) {
+      cardsHtml += `<div class="card ${card.face}"></div>`;
+    });
+    playerCardsEl.innerHTML = cardsHtml;
+
+    // Display computers hand
+    computerCardsEl.innerHTML = '';
+    cardsHtml = '';
+    cHand.forEach(function(card) {
+      cardsHtml += `<div class="card ${card.face}"></div>`;
+    });
+    computerCardsEl.innerHTML = cardsHtml;
 
 
 }
 
 
-function renderScore (hand, player) {
+function renderScore () {
     //This logic will include shuffledDeck[0-i].value to propogate the value
     // Thinking this will be a while loop
+    playerScoreEl.innerHTML = '';
+    score.p = 0;
+    pHand.forEach(function(card) {
+        score.p += card.value;
+    });
+    playerScoreEl.innerText = score.p;
     
+    score.c = 0;
+    cHand.forEach(function(card) {
+        score.c += card.value;
+    });
+    computerScoreEl.innerText = score.c;
 
 }
 
 
 function playHand() {
     // This function is going to hold the logic for the whole individual hand
-
+    if (bet > money) {
+        console.log("Nice try but your pockets aren't that deep");
+        return;
+    }
+    money = money - bet;
+    winnerEl.style.visibility = 'hidden';
     // Dealing the firsh 4 cards
-    pHand = shuffledDeck.shift();
-    cHand = shuffledDeck.shift();
-    pHand = shuffledDeck.shift();
-    cHand = shuffledDeck.shift();
+
+    pHand.push(shuffledDeck.shift());
+    cHand.push(shuffledDeck.shift());
+    pHand.push(shuffledDeck.shift());
+    cHand.push(shuffledDeck.shift());
     render();
 
+    // Need to check for blackjack here
+
+    // Next will be the player hand
+    // I'm going to need to use a counter for the pHand array spot
 
 
 
 }
 
+function handleHit() {
+    pHand.push(shuffledDeck.shift());
+}
 
+function handleStay() {
 
+}
 
 
