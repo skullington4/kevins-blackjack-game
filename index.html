@@ -5,24 +5,47 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/main.css">
+    <link href="css/card-library/css/cardstarter.css" rel="stylesheet" type="text/css" />
     <script defer src="js/main.js"></script>
+    <script defer src="js/cardsMain.js"></script>
     <title>Blackjack Project!</title>
 </head>
 <body>
     <main>
         <div id="cName">Computer</div>
         <div id="cScore"></div>
-        <div id="cCards"></div>
+        <section class="cardHolder" id="cCardHolder">
+            <div id="cc-1"></div>
+            <div id="cc-2"></div>
+            <div id="cc-3"></div>
+            <div id="cc-4"></div>
+            <div id="cc-5"></div>
+        </section>
         <button id="hit">Hit!</button>
         <div id="winnerDisplay"></div>
         <button id="stay">Stay!</button>
-        <div id="pCards"></div>
+        <section class="cardHolder" id = "pCardHolder">
+            <div id="pc-1"></div>
+            <div id="pc-2"></div>
+            <div id="pc-3"></div>
+            <div id="pc-4"></div>
+            <div id="pc-5"></div>
+        </section>
+
         <div id="pName">Player</div>
         <div id="pScore"></div>
         <div id="pMoney"></div>
         <input type="Wager amount">
         <button id="placeWager">Place wager and start hand</button>
 
-</main>
+        </section>
+    </main>
+<section id="hideMe">
+    <h3>Original Deck</h3>
+    <section id="original-deck-container" class="card-container"></section>
+    <button class="hideMe">RE-SHUFFLE DECK</button>
+    <h3>Shuffled Deck</h3>
+    <section id="shuffled-deck-container" class="card-container">
+</section>
 </body>
 </html>
