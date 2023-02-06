@@ -17,6 +17,7 @@ let pBlackjack = null;
 let cBlackjack = null;
 let stayed;
 let tempCard = [];
+let newDeck;
 
 /*------------ cached elements --------------*/
 const winnerEl = document.getElementById('winnerDisplay');
@@ -140,33 +141,45 @@ function startNoHitNoStay() {
 
 function playHand() {
     
-    stayed = false;
-    // This function is going to hold the logic for the whole individual hand
     wager = Number(wagerEl.value);
-    money -= wager;
-    winnerEl.innerText = "";
-    wagerEl.innerText = "";
-    btnHitStayNoStart();
-    // Dealing the firsh 4 cards
-    pHand = [];
-    cHand = [];
-    if (shuffledDeck.length === 0) {
-        shuffledDeck = new getNewShuffledDeck();
+    if (wager > money) {
+        alert("You do not have enough money to place this bet!");
+    } else if (wager <= 0) {
+        alert("You must enter a bet!");
+    }
+    else {
+        console.log(shuffledDeck);
+        stayed = false;
+        // This function is going to hold the logic for the whole individual hand
+        money -= wager;
+        winnerEl.innerText = "";
+        wagerEl.innerText = "";
+        btnHitStayNoStart();
+        // Dealing the firsh 4 cards
+        pHand = [];
+        cHand = [];
+        console.log(shuffledDeck.length + "Play")
+        if (shuffledDeck.length === 0) {
+            shuffledDeck = new getNewShuffledDeck();
+        }
+    
+        pHand.push(shuffledDeck.shift());
+        cHand.push(shuffledDeck.shift());
+        pHand.push(shuffledDeck.shift());
+        cHand.push(shuffledDeck.shift());
+        tempCard = cHand[0];
+        console.log(tempCard);
+        render();
+    
+        // Need to check for blackjack here
+        checkBlackjack();
     }
 
-    pHand.push(shuffledDeck.shift());
-    cHand.push(shuffledDeck.shift());
-    pHand.push(shuffledDeck.shift());
-    cHand.push(shuffledDeck.shift());
-    tempCard = cHand[0];
-    render();
-
-    // Need to check for blackjack here
-    checkBlackjack();
 
 }
 
 function handleHit() {
+    console.log(shuffledDeck.length + "hit");
     if (shuffledDeck.length === 0) {
         shuffledDeck = new getNewShuffledDeck();
     }
@@ -181,6 +194,7 @@ function handleStay() {
     hitButton.setAttribute('disabled', 'disabled');
     stayButton.setAttribute('disabled', 'disabled');
     while (score.c < 16) {
+        console.log(shuffledDeck.length + "stay");
         if (shuffledDeck.length === 0) {
             shuffledDeck = new getNewShuffledDeck();
         }
@@ -238,7 +252,7 @@ function checkBlackjack() {
     jack = false;
 
     //Computer check
-    if (numAces(cHand)) {
+    if (numAces(cHand)>=1) {
             ace = true;
         }
     if (isJacks(cHand)) {
@@ -278,12 +292,14 @@ function numAces(hand) {
 }
 
 function isJacks(hand) {
+    let foundJack = false;
     hand.forEach(function(card) {
         if(card.face === "dJ" || card.face === "cJ" || 
         card.face === "hJ" || card.face === "sJ") {
-            return true;
+            foundJack = true;
         }
     })
+    return foundJack;
 }
 
 function testingBJ() {
