@@ -1,14 +1,4 @@
-//require ("./cardsMain");
-
 /*------------ Constants --------------*/
-const PLAYER = {
-    p: '1',
-    c: '-1'
-}
-
-
-
-
 
 
 /*------------ State variables --------------*/
@@ -18,7 +8,6 @@ let score = {
     c: 0
 };
 let wager = 0;
-let turn = 1;
 let pHand = [];
 let cHand = [];
 let pBlackjack = null;
@@ -46,7 +35,6 @@ stayButton.addEventListener('click', handleStay);
 init();
 
 function init() {
-    turn = 1;
     money = 5000;
     winner = null;
     render();
@@ -103,6 +91,8 @@ function playHand() {
     // This function is going to hold the logic for the whole individual hand
     wager = wagerEl.value;
     money -= wager;
+    winnerEl.innerText = "";
+    wagerEl.innerText = "";
     hitButton.removeAttribute('disabled', 'disabled');
     stayButton.removeAttribute('disabled', 'disabled');
     startButton.setAttribute('disabled', 'disabled');
@@ -116,13 +106,9 @@ function playHand() {
     pHand.push(shuffledDeck.shift());
     cHand.push(shuffledDeck.shift());
     render();
-    
+
     // Need to check for blackjack here
-
-    // Next will be the player hand
-    // I'm going to need to use a counter for the pHand array spot
-
-
+    checkBlackjack();
 
 }
 
@@ -162,10 +148,69 @@ function scoreCheck() {
         playerScoreEl.innerText += ": Bust!"
         winner = -1;
         winnerEl.innerText = "Computer wins!";
+        hitButton.setAttribute('disabled', 'disabled');
+        stayButton.setAttribute('disabled', 'disabled');
+        startButton.removeAttribute('disabled', 'disabled');
     }
 
 }
 
 function checkBlackjack() {
+    //Check for player blackjack
+    let ace = false;
+    let jack = false;
+    // Player check
+    // This will check for any aces
+    if (pHand[0].face === "dA" || pHand[0].face === "cA" || 
+        pHand[0].face === "hA" || pHand[0].face === "sA" || pHand[1].face === "dA" || pHand[1].face === "cA" || 
+        pHand[1].face === "hA" || pHand[1].face === "sA") {
+            ace = true;
+        }
+    // This checks for any jacks
+    if (pHand[0].face === "dJ" || pHand[0].face === "cJ" || 
+        pHand[0].face === "hJ" || pHand[0].face === "sJ" || pHand[1].face === "dJ" || pHand[1].face === "cJ" || 
+        pHand[1].face === "hJ" || pHand[1].face === "sJ") {
+        jack = true;
+    }
+    if (ace && jack) {
+        pBlackjack = true;
+    }
+
+    ace = false;
+    jack = false;
+
+    //Computer check
+    if (cHand[0].face === "dA" || cHand[0].face === "cA" || 
+        cHand[0].face === "hA" || cHand[0].face === "sA" || cHand[1].face === "dA" || cHand[1].face === "cA" || 
+        cHand[1].face === "hA" || cHand[1].face === "sA") {
+            ace = true;
+        }
+    if (cHand[0].face === "dJ" || cHand[0].face === "cJ" || 
+        cHand[0].face === "hJ" || cHand[0].face === "sJ" || cHand[1].face === "dJ" || cHand[1].face === "cJ" || 
+        cHand[1].face === "hJ" || cHand[1].face === "sJ") {
+        jack = true;
+    }
+    if (ace && jack) {
+        cBlackjack = true;
+    }
+    
+    if (pBlackjack && cBlackjack) {
+        winnerEl.innerText = "Both players got blackjack!!!";
+        money += wager;
+        hitButton.setAttribute('disabled', 'disabled');
+        stayButton.setAttribute('disabled', 'disabled');
+        startButton.removeAttribute('disabled', 'disabled');
+    } else if (pBlackjack) {
+        winnerEl.innerText = "Player wins with blackjack!!!";
+        money += wager*3;
+        hitButton.setAttribute('disabled', 'disabled');
+        stayButton.setAttribute('disabled', 'disabled');
+        startButton.removeAttribute('disabled', 'disabled');
+    } else if(cBlackjack) {
+        winnerEl.innerText = "Computer wins with blackjack!!!";
+        hitButton.setAttribute('disabled', 'disabled');
+        stayButton.setAttribute('disabled', 'disabled');
+        startButton.removeAttribute('disabled', 'disabled');
+    }
 
 }
