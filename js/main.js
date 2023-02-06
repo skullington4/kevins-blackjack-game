@@ -1,5 +1,8 @@
 /*------------ Constants --------------*/
-
+const BACKCARD = {
+    face: "back",
+    value: 0
+};
 
 /*------------ State variables --------------*/
 let money = 0;
@@ -12,7 +15,8 @@ let pHand = [];
 let cHand = [];
 let pBlackjack = null;
 let cBlackjack = null;
-
+let stayed;
+let tempCard = [];
 
 /*------------ cached elements --------------*/
 const winnerEl = document.getElementById('winnerDisplay');
@@ -37,12 +41,14 @@ init();
 
 function init() {
     money = 5000;
-    winner = null;
-    render();
+    shuffledDeck = new getNewShuffledDeck();
     startNoHitNoStay();
+    stayed = false;
+    render();
 }
 
 function render() {
+
     renderHand();
     renderScore();
     playerMoneyEl.innerText = `Player money: ${money}`;
@@ -59,13 +65,21 @@ function renderHand() {
     });
     playerCardsEl.innerHTML = cardsHtml;
 
-    // Display computers hand
-    computerCardsEl.innerHTML = '';
-    cardsHtml = '';
-    cHand.forEach(function(card) {
-      cardsHtml += `<div class="card ${card.face}"></div>`;
-    });
-    computerCardsEl.innerHTML = cardsHtml;
+    // Display computers hand - players turn (first card down)
+    if (!stayed && cHand.length > 0) {
+        cHand[0] = BACKCARD;
+    }
+    else if (stayed) {
+        cHand[0] = tempCard;
+    }
+
+    // Display full computer hand
+        computerCardsEl.innerHTML = '';
+        cardsHtml = '';
+        cHand.forEach(function(card) {
+        cardsHtml += `<div class="card ${card.face}"></div>`;
+        });
+        computerCardsEl.innerHTML = cardsHtml;
 
 
 }
@@ -125,6 +139,8 @@ function startNoHitNoStay() {
 }
 
 function playHand() {
+    
+    stayed = false;
     // This function is going to hold the logic for the whole individual hand
     wager = Number(wagerEl.value);
     money -= wager;
@@ -134,12 +150,15 @@ function playHand() {
     // Dealing the firsh 4 cards
     pHand = [];
     cHand = [];
-    shuffledDeck = new getNewShuffledDeck();
+    if (shuffledDeck.length === 0) {
+        shuffledDeck = new getNewShuffledDeck();
+    }
 
     pHand.push(shuffledDeck.shift());
     cHand.push(shuffledDeck.shift());
     pHand.push(shuffledDeck.shift());
     cHand.push(shuffledDeck.shift());
+    tempCard = cHand[0];
     render();
 
     // Need to check for blackjack here
@@ -148,15 +167,23 @@ function playHand() {
 }
 
 function handleHit() {
+    if (shuffledDeck.length === 0) {
+        shuffledDeck = new getNewShuffledDeck();
+    }
     pHand.push(shuffledDeck.shift());
     render();
     scoreCheck();
 }
 
 function handleStay() {
+    stayed = true;
+    render();
     hitButton.setAttribute('disabled', 'disabled');
     stayButton.setAttribute('disabled', 'disabled');
     while (score.c < 16) {
+        if (shuffledDeck.length === 0) {
+            shuffledDeck = new getNewShuffledDeck();
+        }
         cHand.push(shuffledDeck.shift());
         render();
     }
@@ -190,6 +217,7 @@ function scoreCheck() {
 function checkBlackjack() {
     cBlackjack = false;
     pBlackjack = false;
+    cHand[0] = tempCard;
     //Check for player blackjack
     let ace = false;
     let jack = false;
@@ -199,9 +227,7 @@ function checkBlackjack() {
             ace = true;
         }
     // This checks for any jacks
-    if (pHand[0].face === "dJ" || pHand[0].face === "cJ" || 
-        pHand[0].face === "hJ" || pHand[0].face === "sJ" || pHand[1].face === "dJ" || pHand[1].face === "cJ" || 
-        pHand[1].face === "hJ" || pHand[1].face === "sJ") {
+    if (isJacks(pHand)) {
         jack = true;
     }
     if (ace && jack) {
@@ -212,14 +238,10 @@ function checkBlackjack() {
     jack = false;
 
     //Computer check
-    if (cHand[0].face === "dA" || cHand[0].face === "cA" || 
-        cHand[0].face === "hA" || cHand[0].face === "sA" || cHand[1].face === "dA" || cHand[1].face === "cA" || 
-        cHand[1].face === "hA" || cHand[1].face === "sA") {
+    if (numAces(cHand)) {
             ace = true;
         }
-    if (cHand[0].face === "dJ" || cHand[0].face === "cJ" || 
-        cHand[0].face === "hJ" || cHand[0].face === "sJ" || cHand[1].face === "dJ" || cHand[1].face === "cJ" || 
-        cHand[1].face === "hJ" || cHand[1].face === "sJ") {
+    if (isJacks(cHand)) {
         jack = true;
     }
     if (ace && jack) {
@@ -237,7 +259,10 @@ function checkBlackjack() {
     } else if(cBlackjack) {
         winnerEl.innerText = "Computer wins with blackjack!!!";
         startNoHitNoStay();
+    } else {
+        cHand[0] = BACKCARD;
     }
+
 
 }
 
@@ -252,11 +277,20 @@ function numAces(hand) {
     return total;
 }
 
+function isJacks(hand) {
+    hand.forEach(function(card) {
+        if(card.face === "dJ" || card.face === "cJ" || 
+        card.face === "hJ" || card.face === "sJ") {
+            return true;
+        }
+    })
+}
+
 function testingBJ() {
     cHand[0].face = "sA";
     cHand[0].value = 11;
-    cHand[1].face = "sA";
-    cHand[1].value = 11;
+    cHand[1].face = "sJ";
+    cHand[1].value = 10;
 
     pHand[0].face = "sA";
     pHand[0].value = 11;
