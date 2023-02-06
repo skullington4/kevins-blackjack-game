@@ -28,7 +28,7 @@ let cBlackjack = null;
 const winnerEl = document.getElementById('winnerDisplay');
 const playerScoreEl = document.getElementById('pScore');
 const computerScoreEl = document.getElementById('cScore');
-const wagerEl = document.getElementById('wager');
+const wagerEl = document.getElementById('wagerAmount');
 const playerMoneyEl = document.getElementById('pMoney');
 const computerCardsEl = document.getElementById('cCardHolder');
 const playerCardsEl = document.getElementById('pCardHolder');
@@ -49,14 +49,13 @@ function init() {
     turn = 1;
     money = 5000;
     winner = null;
-    winnerEl.style.visibility = "hidden";
-    shuffledDeck = new getNewShuffledDeck();
     render();
 }
 
 function render() {
     renderHand();
     renderScore();
+    playerMoneyEl.innerText = `Player money: ${money}`;
 }
 
 
@@ -83,8 +82,7 @@ function renderHand() {
 
 
 function renderScore () {
-    //This logic will include shuffledDeck[0-i].value to propogate the value
-    // Thinking this will be a while loop
+
     playerScoreEl.innerHTML = '';
     score.p = 0;
     pHand.forEach(function(card) {
@@ -103,20 +101,22 @@ function renderScore () {
 
 function playHand() {
     // This function is going to hold the logic for the whole individual hand
-    if (bet > money) {
-        console.log("Nice try but your pockets aren't that deep");
-        return;
-    }
-    money = money - bet;
-    winnerEl.style.visibility = 'hidden';
+    wager = wagerEl.value;
+    money -= wager;
+    hitButton.removeAttribute('disabled', 'disabled');
+    stayButton.removeAttribute('disabled', 'disabled');
+    startButton.setAttribute('disabled', 'disabled');
     // Dealing the firsh 4 cards
+    pHand = [];
+    cHand = [];
+    shuffledDeck = new getNewShuffledDeck();
 
     pHand.push(shuffledDeck.shift());
     cHand.push(shuffledDeck.shift());
     pHand.push(shuffledDeck.shift());
     cHand.push(shuffledDeck.shift());
     render();
-
+    
     // Need to check for blackjack here
 
     // Next will be the player hand
@@ -128,10 +128,44 @@ function playHand() {
 
 function handleHit() {
     pHand.push(shuffledDeck.shift());
+    render();
+    scoreCheck();
 }
 
 function handleStay() {
+    hitButton.setAttribute('disabled', 'disabled');
+    stayButton.setAttribute('disabled', 'disabled');
+    while (score.c < 16) {
+        cHand.push(shuffledDeck.shift());
+        render();
+    }
+    if (score.c > 21) {
+        computerScoreEl.innerText += ": Bust!";
+        money += wager*2;
+        winnerEl.innerText = "Player wins!";
+    } else if (score.p > score.c) {
+        winnerEl.innerText = "Player wins!";
+        money += wager*2;
+    } else if (score.p < score.c) {
+        winnerEl.innerText = "Computer wins!"
+    } else {
+        winnerEl.innerText = "It's a draw!"
+        money += wager;
+    }
+    render();
+    startButton.removeAttribute('disabled', 'disabled');
+}   
+
+
+function scoreCheck() {
+    if (score.p > 21) {
+        playerScoreEl.innerText += ": Bust!"
+        winner = -1;
+        winnerEl.innerText = "Computer wins!";
+    }
 
 }
 
+function checkBlackjack() {
 
+}
