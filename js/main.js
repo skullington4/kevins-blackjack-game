@@ -1,23 +1,24 @@
 /*------------ Constants --------------*/
+// This is used for the computers first card placed face down
 const BACKCARD = {
     face: "back",
     value: 0
 };
 
 /*------------ State variables --------------*/
-let money = 0;
+let money = 0; //Player money
 let score = {
     p: 0,
     c: 0
 };
 let wager = 0;
-let pHand = [];
-let cHand = [];
-let pBlackjack = null;
-let cBlackjack = null;
-let stayed;
-let tempCard = [];
-let newDeck;
+let pHand = []; // Holds player cards object
+let cHand = []; // Holds comp cards object
+let pBlackjack = null; // player blackjack boolean
+let cBlackjack = null; // Comp blackjack boolean
+let stayed; // Boolean to mark when player hits stay button and moves to comp turn.
+let tempCard = []; // Holds the value of the face down card
+let newDeck; // Deck in use
 
 /*------------ cached elements --------------*/
 const winnerEl = document.getElementById('winnerDisplay');
@@ -42,7 +43,7 @@ init();
 
 function init() {
     money = 5000;
-    shuffledDeck = new getNewShuffledDeck();
+    newDeck = new getNewShuffledDeck();
     startNoHitNoStay();
     stayed = false;
     render();
@@ -148,7 +149,6 @@ function playHand() {
         alert("You must enter a bet!");
     }
     else {
-        console.log(shuffledDeck);
         stayed = false;
         // This function is going to hold the logic for the whole individual hand
         money -= wager;
@@ -158,15 +158,16 @@ function playHand() {
         // Dealing the firsh 4 cards
         pHand = [];
         cHand = [];
-        console.log(shuffledDeck.length + "Play")
-        if (shuffledDeck.length === 0) {
-            shuffledDeck = new getNewShuffledDeck();
-        }
+        console.log(newDeck.length + "Play")
+        checkDeck()
     
-        pHand.push(shuffledDeck.shift());
-        cHand.push(shuffledDeck.shift());
-        pHand.push(shuffledDeck.shift());
-        cHand.push(shuffledDeck.shift());
+        pHand.push(newDeck.shift());
+        checkDeck()
+        cHand.push(newDeck.shift());
+        checkDeck()
+        pHand.push(newDeck.shift());
+        checkDeck()
+        cHand.push(newDeck.shift());
         tempCard = cHand[0];
         console.log(tempCard);
         render();
@@ -179,11 +180,8 @@ function playHand() {
 }
 
 function handleHit() {
-    console.log(shuffledDeck.length + "hit");
-    if (shuffledDeck.length === 0) {
-        shuffledDeck = new getNewShuffledDeck();
-    }
-    pHand.push(shuffledDeck.shift());
+    checkDeck()
+    pHand.push(newDeck.shift());
     render();
     scoreCheck();
 }
@@ -194,11 +192,8 @@ function handleStay() {
     hitButton.setAttribute('disabled', 'disabled');
     stayButton.setAttribute('disabled', 'disabled');
     while (score.c < 16) {
-        console.log(shuffledDeck.length + "stay");
-        if (shuffledDeck.length === 0) {
-            shuffledDeck = new getNewShuffledDeck();
-        }
-        cHand.push(shuffledDeck.shift());
+        checkDeck()
+        cHand.push(newDeck.shift());
         render();
     }
     if (score.c > 21) {
@@ -218,6 +213,11 @@ function handleStay() {
     startButton.removeAttribute('disabled', 'disabled');
 }   
 
+function checkDeck() {
+    if (newDeck.length === 0) {
+        newDeck = new getNewShuffledDeck();
+    }
+}
 
 function scoreCheck() {
     if (score.p > 21) {
@@ -280,6 +280,8 @@ function checkBlackjack() {
 
 }
 
+// Checks a hand for how many aces there are.
+// Used for score tracking and blackJack
 function numAces(hand) {
     let total = 0;
     hand.forEach(function(card) {
@@ -291,6 +293,8 @@ function numAces(hand) {
     return total;
 }
 
+// Checks hand to see if there are any jacks in a hand.
+// Used to check for blackJack
 function isJacks(hand) {
     let foundJack = false;
     hand.forEach(function(card) {
