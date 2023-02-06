@@ -13,6 +13,7 @@ let cHand = [];
 let pBlackjack = null;
 let cBlackjack = null;
 
+
 /*------------ cached elements --------------*/
 const winnerEl = document.getElementById('winnerDisplay');
 const playerScoreEl = document.getElementById('pScore');
@@ -38,6 +39,7 @@ function init() {
     money = 5000;
     winner = null;
     render();
+    startNoHitNoStay();
 }
 
 function render() {
@@ -70,32 +72,65 @@ function renderHand() {
 
 
 function renderScore () {
+    let i = numAces(pHand);
+
 
     playerScoreEl.innerHTML = '';
     score.p = 0;
     pHand.forEach(function(card) {
         score.p += card.value;
     });
+    if (score.p > 21) {
+        while (i > 0) {
+            score.p -= 10;
+            if (score.p <= 21) {
+                break;
+            }
+            i--;
+        }
+    }
     playerScoreEl.innerText = score.p;
+    
+    i = numAces(cHand);
+
     
     score.c = 0;
     cHand.forEach(function(card) {
         score.c += card.value;
     });
+    
+    if (score.c > 21) {
+        while (i > 0) {
+            score.c -= 10;
+            if (score.c <= 21) {
+                break;
+            }
+            i--;
+        }
+    }
     computerScoreEl.innerText = score.c;
-
 }
 
-
-function playHand() {
-    // This function is going to hold the logic for the whole individual hand
-    wager = wagerEl.value;
-    money -= wager;
-    winnerEl.innerText = "";
-    wagerEl.innerText = "";
+function btnHitStayNoStart() {
+    //This function is for disabling start and enabling hit and stay
     hitButton.removeAttribute('disabled', 'disabled');
     stayButton.removeAttribute('disabled', 'disabled');
     startButton.setAttribute('disabled', 'disabled');
+}
+
+function startNoHitNoStay() {
+    hitButton.setAttribute('disabled', 'disabled');
+    stayButton.setAttribute('disabled', 'disabled');
+    startButton.removeAttribute('disabled', 'disabled');
+}
+
+function playHand() {
+    // This function is going to hold the logic for the whole individual hand
+    wager = Number(wagerEl.value);
+    money -= wager;
+    winnerEl.innerText = "";
+    wagerEl.innerText = "";
+    btnHitStayNoStart();
     // Dealing the firsh 4 cards
     pHand = [];
     cHand = [];
@@ -136,7 +171,7 @@ function handleStay() {
         winnerEl.innerText = "Computer wins!"
     } else {
         winnerEl.innerText = "It's a draw!"
-        money = money + wager;
+        money = Number(money) + Number(wager);
     }
     render();
     startButton.removeAttribute('disabled', 'disabled');
@@ -146,24 +181,21 @@ function handleStay() {
 function scoreCheck() {
     if (score.p > 21) {
         playerScoreEl.innerText += ": Bust!"
-        winner = -1;
         winnerEl.innerText = "Computer wins!";
-        hitButton.setAttribute('disabled', 'disabled');
-        stayButton.setAttribute('disabled', 'disabled');
-        startButton.removeAttribute('disabled', 'disabled');
+        startNoHitNoStay()
     }
 
 }
 
 function checkBlackjack() {
+    cBlackjack = false;
+    pBlackjack = false;
     //Check for player blackjack
     let ace = false;
     let jack = false;
     // Player check
     // This will check for any aces
-    if (pHand[0].face === "dA" || pHand[0].face === "cA" || 
-        pHand[0].face === "hA" || pHand[0].face === "sA" || pHand[1].face === "dA" || pHand[1].face === "cA" || 
-        pHand[1].face === "hA" || pHand[1].face === "sA") {
+    if (numAces(pHand)>= 1) {
             ace = true;
         }
     // This checks for any jacks
@@ -193,24 +225,56 @@ function checkBlackjack() {
     if (ace && jack) {
         cBlackjack = true;
     }
-    
+
     if (pBlackjack && cBlackjack) {
         winnerEl.innerText = "Both players got blackjack!!!";
         money += wager;
-        hitButton.setAttribute('disabled', 'disabled');
-        stayButton.setAttribute('disabled', 'disabled');
-        startButton.removeAttribute('disabled', 'disabled');
+        startNoHitNoStay();
     } else if (pBlackjack) {
         winnerEl.innerText = "Player wins with blackjack!!!";
         money += wager*3;
-        hitButton.setAttribute('disabled', 'disabled');
-        stayButton.setAttribute('disabled', 'disabled');
-        startButton.removeAttribute('disabled', 'disabled');
+        startNoHitNoStay();
     } else if(cBlackjack) {
         winnerEl.innerText = "Computer wins with blackjack!!!";
-        hitButton.setAttribute('disabled', 'disabled');
-        stayButton.setAttribute('disabled', 'disabled');
-        startButton.removeAttribute('disabled', 'disabled');
+        startNoHitNoStay();
     }
 
+}
+
+function numAces(hand) {
+    let total = 0;
+    hand.forEach(function(card) {
+        if(card.face === "dA" || card.face === "cA" || 
+        card.face === "hA" || card.face === "sA") {
+            total++;
+        }
+    })
+    return total;
+}
+
+function testingBJ() {
+    cHand[0].face = "sA";
+    cHand[0].value = 11;
+    cHand[1].face = "sA";
+    cHand[1].value = 11;
+
+    pHand[0].face = "sA";
+    pHand[0].value = 11;
+    pHand[1].face = "sA";
+    pHand[1].value = 11;
+    checkBlackjack();
+    render();
+}
+
+function testingTie() {
+    cHand[0].face = "sJ";
+    cHand[0].value = 10;
+    cHand[1].face = "sK";
+    cHand[1].value = 10;
+
+    pHand[0].face = "sJ";
+    pHand[0].value = 10;
+    pHand[1].face = "sK";
+    pHand[1].value = 10;
+    render();
 }
