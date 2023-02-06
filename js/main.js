@@ -136,7 +136,7 @@ function handleStay() {
         winnerEl.innerText = "Computer wins!"
     } else {
         winnerEl.innerText = "It's a draw!"
-        money += wager;
+        money = money + wager;
     }
     render();
     startButton.removeAttribute('disabled', 'disabled');

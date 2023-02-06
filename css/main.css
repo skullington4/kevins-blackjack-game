@@ -12,7 +12,6 @@ main {
     display: grid;
     grid-template-columns: 40vmin 40vmin 40vmin;
     grid-template-rows: 3rem 15rem 3rem 15rem 3rem 10rem;
-
 }
 
 main * {

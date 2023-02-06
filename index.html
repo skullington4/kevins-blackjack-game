@@ -6,36 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/main.css">
     <link href="css/card-library/css/cardstarter.css" rel="stylesheet" type="text/css" />
-    <script defer src="js/main.js"></script>
-    <script defer src="js/cardsMain.js"></script>
+    <script defer src="./js/cardsMain.js"></script>
+    <script defer src="./js/main.js"></script>
     <title>Blackjack Project!</title>
 </head>
 <body>
     <main>
         <div id="cName">Computer</div>
         <div id="cScore"></div>
-        <section class="cardHolder" id="cCardHolder">
-            <div id="cc-1"></div>
-            <div id="cc-2"></div>
-            <div id="cc-3"></div>
-            <div id="cc-4"></div>
-            <div id="cc-5"></div>
-        </section>
+        <section class="cardHolder" id="cCardHolder"></section>
         <button id="hit">Hit!</button>
         <div id="winnerDisplay"></div>
         <button id="stay">Stay!</button>
-        <section class="cardHolder" id = "pCardHolder">
-            <div id="pc-1"></div>
-            <div id="pc-2"></div>
-            <div id="pc-3"></div>
-            <div id="pc-4"></div>
-            <div id="pc-5"></div>
-        </section>
-
+        <section class="cardHolder" id = "pCardHolder"></section>
         <div id="pName">Player</div>
         <div id="pScore"></div>
         <div id="pMoney"></div>
-        <input type="Wager amount">
+        <input type="text" id="wagerAmount" placeHolder="Enter bet!">
         <button id="placeWager">Place wager and start hand</button>
 
         </section>
