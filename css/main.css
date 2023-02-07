@@ -76,16 +76,24 @@ div {
 
 #hit {
     background-color: lightgreen;
+    border: 5px solid black;
 }
 
 #stay {
     background-color: red;
+    border: 5px solid black;
 }
 
 #wagerAmount {
     font-size: 24px;
 }
 
+
+button:disabled, button[disabled] {
+    border: 1px solid darkgray;
+    background-color: gray;
+    color: white;
+}
 
 #hideMe {
     visibility: hidden;
