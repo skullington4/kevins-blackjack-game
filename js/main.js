@@ -63,7 +63,7 @@ function renderHand() {
     playerCardsEl.innerHTML = '';
     let cardsHtml = '';
     pHand.forEach(function(card) {
-      cardsHtml += `<div class="card ${card.face}"></div>`;
+      cardsHtml += `<div class="card ${card.face} large"></div>`;
     });
     playerCardsEl.innerHTML = cardsHtml;
 
@@ -79,7 +79,7 @@ function renderHand() {
         computerCardsEl.innerHTML = '';
         cardsHtml = '';
         cHand.forEach(function(card) {
-        cardsHtml += `<div class="card ${card.face}"></div>`;
+        cardsHtml += `<div class="card ${card.face} large"></div>`;
         });
         computerCardsEl.innerHTML = cardsHtml;
 
@@ -176,6 +176,7 @@ function playHand() {
         render();
     
         checkBlackjack();
+        render();
     }
 
 
