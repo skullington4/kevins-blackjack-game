@@ -4,14 +4,16 @@
 
 body {
     height: 100vh;
+    width: 80vh;
     flex-direction: row;
     flex-flow: wrap;
+    background-color: darkgreen;
 }
 
 main {
     display: grid;
     grid-template-columns: 40vmin 40vmin 40vmin;
-    grid-template-rows: 3rem 15rem 3rem 15rem 3rem 10rem;
+    grid-template-rows: 5vmin 15rem 10vmin 15rem 3rem 10rem;
 }
 
 main * {
@@ -24,11 +26,12 @@ main * {
   button {
     justify-self: center;
     width: 15vmin;
+    height: 4vmin;
     margin: 2vmin;
     background-color: white;
     color: black;
     border: .25vmin solid black;
-    border-radius: 4vmin;
+    border-radius: 100%;
     font-size: 2vmin;
     outline: none;
   }
@@ -36,23 +39,23 @@ main * {
   button:hover {
     background-color: black;
     color: white;
+    cursor: pointer;
   }
 
 
 div {
-    background-color: gray;
-    size: 1rem;
+    background-color: darkgreen;
+    color: white;
 }
 
 
 #cName, #pName {
-    background-color: purple;
     grid-column-start: 1;
     grid-column-end: 2;
 }
 
 .cardHolder {
-    background-color: blue;
+    background-color: green;
     grid-column-start: 1;
     grid-column-end: 4;
     display: flex;
@@ -62,15 +65,22 @@ div {
 
 
 #pScore, #cScore {
-    background-color: turquoise;
     grid-column-start: 3;
     grid-column-end: 4;
+    font-size: 4fr;
 }
 
+#placeWager {
+    height: 10vmin;
+}
 
+#hit {
+    background-color: lightgreen;
+}
 
-
-
+#stay {
+    background-color: red;
+}
 
 #hideMe {
     visibility: hidden;

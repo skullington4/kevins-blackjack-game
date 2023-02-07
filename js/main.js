@@ -71,7 +71,7 @@ function renderHand() {
     if (!stayed && cHand.length > 0) {
         cHand[0] = BACKCARD;
     }
-    else if (stayed) {
+    else if (stayed || pBlackjack || cBlackjack) {
         cHand[0] = tempCard;
     }
 
@@ -135,32 +135,35 @@ function btnHitStayNoStart() {
 }
 
 function startNoHitNoStay() {
+    // function enables start and disabled hit/stay
     hitButton.setAttribute('disabled', 'disabled');
     stayButton.setAttribute('disabled', 'disabled');
     startButton.removeAttribute('disabled', 'disabled');
 }
 
 function playHand() {
-    
+    // function when place wager start hand button is pressed
+    // Checks to make sure wage is valid, deals first 4 cards, checks for blackjack,
+    // then waits for player's next move
     wager = Number(wagerEl.value);
     if (wager > money) {
         alert("You do not have enough money to place this bet!");
     } else if (wager <= 0) {
         alert("You must enter a bet!");
+    } else if (wager === NaN) {
+        alert("You must use numbers only!")
     }
     else {
         stayed = false;
         // This function is going to hold the logic for the whole individual hand
         money -= wager;
         winnerEl.innerText = "";
-        wagerEl.innerText = "";
         btnHitStayNoStart();
         // Dealing the firsh 4 cards
         pHand = [];
         cHand = [];
-        console.log(newDeck.length + "Play")
+
         checkDeck()
-    
         pHand.push(newDeck.shift());
         checkDeck()
         cHand.push(newDeck.shift());
@@ -172,7 +175,6 @@ function playHand() {
         console.log(tempCard);
         render();
     
-        // Need to check for blackjack here
         checkBlackjack();
     }
 
@@ -214,6 +216,7 @@ function handleStay() {
 }   
 
 function checkDeck() {
+    // Checks the deck to make sure there are cards left. If length = 0, get new shuffled deck
     if (newDeck.length === 0) {
         newDeck = new getNewShuffledDeck();
     }
@@ -268,15 +271,16 @@ function checkBlackjack() {
         startNoHitNoStay();
     } else if (pBlackjack) {
         winnerEl.innerText = "Player wins with blackjack!!!";
-        money += wager*3;
+        money += wager*2.5;
         startNoHitNoStay();
     } else if(cBlackjack) {
         winnerEl.innerText = "Computer wins with blackjack!!!";
         startNoHitNoStay();
+        render();
     } else {
         cHand[0] = BACKCARD;
     }
-
+    
 
 }
 
