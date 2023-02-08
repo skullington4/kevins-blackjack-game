@@ -12,7 +12,7 @@ body {
 main {
     display: grid;
     grid-template-columns: 30vmin 30vmin 30vmin;
-    grid-template-rows: 5rem 15rem 12rem 15rem 3rem 10rem;
+    grid-template-rows: 7vmin 15vmin 12rem 15vmin 7vmin 10rem;
 }
 
 main * {
@@ -71,9 +71,11 @@ div {
 }
 
 #placeWager {
-    height: 10rem;
-    width: 10rem;
+    height: 12vmin;
+    width: 12vmin;
     justify-self: center;
+    font-size: 1.5vmin;
+
 }
 
 #hit {
