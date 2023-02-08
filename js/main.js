@@ -4,6 +4,10 @@ const BACKCARD = {
     face: "back",
     value: 0
 };
+const SIZE = {
+    small: "",
+    large: " large"
+};
 
 /*------------ State variables --------------*/
 let money = 0; //Player money
@@ -20,6 +24,9 @@ let stayed; // Boolean to mark when player hits stay button and moves to comp tu
 let tempCard = []; // Holds the value of the face down card
 let newDeck; // Deck in use
 let win;
+let windowHeight, windowWidth;
+let cardSize;
+
 
 /*------------ cached elements --------------*/
 const winnerEl = document.getElementById('winnerDisplay');
@@ -47,12 +54,19 @@ function init() {
     newDeck = new getNewShuffledDeck();
     startNoHitNoStay();
     stayed = false;
+    let windowHeight = window.innerHeight;
+    let windowWidth = window.innerWidth;
+    console.log(windowHeight);
     render();
 }
 
 
 function render() {
-
+    if (windowWidth < 770) {
+        cardSize = SIZE.small;
+    } else {
+        cardSize = SIZE.large;
+    }
     renderHand();
     renderScore();
     checkPlayerBust();
@@ -70,7 +84,7 @@ function renderHand() {
     let cardsHtml = '';
     // Display player cards
     pHand.forEach(function(card) {
-      cardsHtml += `<div class="card ${card.face} large"></div>`;
+      cardsHtml += `<div class="card ${card.face}${cardSize}"></div>`;
     });
     playerCardsEl.innerHTML = cardsHtml;
 
@@ -87,7 +101,7 @@ function renderHand() {
         computerCardsEl.innerHTML = '';
         cardsHtml = '';
         cHand.forEach(function(card) {
-        cardsHtml += `<div class="card ${card.face} large"></div>`;
+        cardsHtml += `<div class="card ${card.face}${cardSize}"></div>`;
         });
         computerCardsEl.innerHTML = cardsHtml;
 }
