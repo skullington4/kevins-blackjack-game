@@ -1,16 +1,9 @@
-# Kevin's Blackjack Game
-
-
-Things left to do
-
-Need to not allow the game to be played if the wager is greater than money
-Need to not allow game to be played if no wager is entered.
-Make it pretty
-
-
-☐ <Your game's title>: A description of your game. Background info of the game is a nice touch.
+# Kevin's Blackjack Game: This is just regular 1v1 blackjack. There is no splitting hands and no doubling down. 
 
 ☐ Screenshot(s): Images of your actual game.
+
+
+
 
 ☐ Technologies Used: JavaScript, HTML, CSS, Cards Library
 

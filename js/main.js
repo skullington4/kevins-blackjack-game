@@ -50,25 +50,32 @@ function init() {
     render();
 }
 
+
 function render() {
 
     renderHand();
     renderScore();
+    checkPlayerBust();
+    renderHand(); // Need this twice because we need to 
+    // render hand to get score then check hand again for bust
     playerMoneyEl.innerText = `Player money: ${money}`;
+
+    
 }
 
 
 function renderHand() {
-    // This function should interate through each players hand,
-    // update their respective score values, and updates the score divs
+    // This function should interate through each players hand and display their cards
     playerCardsEl.innerHTML = '';
     let cardsHtml = '';
+    // Display player cards
     pHand.forEach(function(card) {
       cardsHtml += `<div class="card ${card.face} large"></div>`;
     });
     playerCardsEl.innerHTML = cardsHtml;
 
-    // Display computers hand - players turn (first card down)
+    // Checks for any winning hands or if player stayed. 
+    // If any are true, we want to display both cards, otherwise keep first card down
     if (stayed || pBlackjack || cBlackjack || win) {
         cHand[0] = tempCard;
     }
@@ -76,29 +83,26 @@ function renderHand() {
         cHand[0] = BACKCARD;
     }
 
-    
-
-    // Display full computer hand
+    // Display computer hand
         computerCardsEl.innerHTML = '';
         cardsHtml = '';
         cHand.forEach(function(card) {
         cardsHtml += `<div class="card ${card.face} large"></div>`;
         });
         computerCardsEl.innerHTML = cardsHtml;
-
-
 }
 
 
 function renderScore () {
     let i = numAces(pHand);
 
-
+    // Player score section
     playerScoreEl.innerHTML = '';
     score.p = 0;
     pHand.forEach(function(card) {
         score.p += card.value;
     });
+    //Checking if there is an ace AND bust to make ace 11 -> 1
     if (score.p > 21) {
         while (i > 0) {
             score.p -= 10;
@@ -112,7 +116,7 @@ function renderScore () {
     
     i = numAces(cHand);
 
-    
+    //Computer score section
     score.c = 0;
     cHand.forEach(function(card) {
         score.c += card.value;
@@ -127,7 +131,14 @@ function renderScore () {
             i--;
         }
     }
-    computerScoreEl.innerText = score.c;
+    // Checks for bust
+    if (score.c > 21) {
+        computerScoreEl.innerText = `${score.c}: Bust!`;
+
+    } else {
+
+        computerScoreEl.innerText = score.c;
+    }
 }
 
 function btnHitStayNoStart() {
@@ -150,16 +161,15 @@ function playHand() {
     // then waits for player's next move
     wager = Number(wagerEl.value);
     if (wager > money) {
-        alert("You do not have enough money to place this bet!");
+        winnerEl.innerText = "You do not have enough money to place this bet!";
     } else if (wager <= 0) {
-        alert("You must enter a bet!");
+        winnerEl.innerText = "You must enter a bet!";
     } else if (wager === NaN) {
-        alert("You must use numbers only!")
+        winnerEl.innerText = "You must use numbers only!";
     }
     else {
         stayed = false;
-        compWin = false;
-        // This function is going to hold the logic for the whole individual hand
+        win = false;
         money -= wager;
         winnerEl.innerText = "";
         btnHitStayNoStart();
@@ -189,8 +199,6 @@ function handleHit() {
     checkDeck()
     pHand.push(newDeck.shift());
     render();
-    scoreCheck();
-    render();
 }
 
 function handleStay() {
@@ -204,7 +212,6 @@ function handleStay() {
         render();
     }
     if (score.c > 21) {
-        computerScoreEl.innerText += ": Bust!";
         money += wager*2;
         winnerEl.innerText = "Player wins!";
     } else if (score.p > score.c) {
@@ -227,11 +234,11 @@ function checkDeck() {
     }
 }
 
-function scoreCheck() {
+function checkPlayerBust() {
     if (score.p > 21) {
         playerScoreEl.innerText += ": Bust!"
         winnerEl.innerText = "Computer wins!";
-        compWin = true;
+        win = true;
         startNoHitNoStay()
     }
 
@@ -270,9 +277,10 @@ function checkBlackjack() {
     if (ace && jack) {
         cBlackjack = true;
     }
-
+    // These check for combos of player/comp blackjack
     if (pBlackjack && cBlackjack) {
         winnerEl.innerText = "Both players got blackjack!!!";
+        win = true;
         money += wager;
         startNoHitNoStay();
     } else if (pBlackjack) {
@@ -282,6 +290,7 @@ function checkBlackjack() {
         startNoHitNoStay();
     } else if(cBlackjack) {
         winnerEl.innerText = "Computer wins with blackjack!!!";
+        win = true;
         startNoHitNoStay();
         render();
     } else if (!pBlackjack && !cBlackjack) {
@@ -315,19 +324,4 @@ function isJacks(hand) {
         }
     })
     return foundJack;
-}
-
-function testingBJ() {
-    cHand[0].face = "sA";
-    cHand[0].value = 11;
-    cHand[1].face = "sJ";
-    cHand[1].value = 10;
-    tempCard = cHand[0];
-
-    pHand[0].face = "sA";
-    pHand[0].value = 11;
-    pHand[1].face = "sA";
-    pHand[1].value = 11;
-    checkBlackjack();
-    render();
 }
