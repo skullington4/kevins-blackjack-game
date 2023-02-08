@@ -54,15 +54,15 @@ function init() {
     newDeck = new getNewShuffledDeck();
     startNoHitNoStay();
     stayed = false;
-    let windowHeight = window.innerHeight;
-    let windowWidth = window.innerWidth;
-    console.log(windowHeight);
+    console.log(windowWidth);
     render();
 }
 
 
 function render() {
-    if (windowWidth < 770) {
+    windowHeight = window.innerHeight;
+    windowWidth = window.innerWidth;
+    if (windowWidth < 900) {
         cardSize = SIZE.small;
     } else {
         cardSize = SIZE.large;

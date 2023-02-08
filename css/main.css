@@ -12,13 +12,13 @@ body {
 main {
     display: grid;
     grid-template-columns: 30vmin 30vmin 30vmin;
-    grid-template-rows: 7vmin 15vmin 12rem 15vmin 7vmin 10rem;
+    grid-template-rows: 7vmin 7vmin 15vmin 12rem 15vmin 7vmin 10rem;
 }
 
 main * {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-end;
   }
 
 
@@ -29,7 +29,7 @@ main * {
     margin: 2vmin;
     background-color: blue;
     color: white;
-    border: .25vmin solid black;
+    border: .25vmin solid white;
     border-radius: 100%;
     font-size: 2vmin;
     outline: none;
@@ -59,10 +59,8 @@ div {
     grid-column-start: 1;
     grid-column-end: 4;
     display: flex;
-
+    align-items: flex-end;
 }
-
-
 
 #pScore, #cScore {
     grid-column-start: 3;
@@ -75,24 +73,22 @@ div {
     width: 12vmin;
     justify-self: center;
     font-size: 1.5vmin;
-
 }
 
 #hit {
     background-color: lightgreen;
-    border: 5px solid black;
+    border: 5px solid white;
     border-radius: 50%;
 }
 
 #stay {
     background-color: red;
-    border: 5px solid black;
+    border: 5px solid white;
 }
-
-
 
 #wagerAmount {
     font-size: 24px;
+    height: auto;
 }
 
 
@@ -125,7 +121,7 @@ button:disabled, #hit:disabled, #stay:disabled {
     main {
         display: grid;
         grid-template-columns: 30vmin 30vmin 30vmin;
-        grid-template-rows: 7vmin 15vmin 12rem 15vmin 7vmin 10rem;
+        grid-template-rows: 7vmin 7vmin 15vmin 12rem 15vmin 7vmin 10rem;
     }
     
     main * {
@@ -142,7 +138,7 @@ button:disabled, #hit:disabled, #stay:disabled {
         margin: 2vmin;
         background-color: blue;
         color: white;
-        border: .25vmin solid black;
+        border: .25vmin solid white;
         border-radius: 100%;
         font-size: 2vmin;
         outline: none;
@@ -161,7 +157,13 @@ button:disabled, #hit:disabled, #stay:disabled {
         font-size: 24px;
     }
     
-    
+    .blackjackTitle {
+        grid-column-start: 1;
+        grid-column-end: 4;
+        font-size: 6vmin;
+        color: black;
+
+    }
     #cName, #pName {
         grid-column-start: 1;
         grid-column-end: 2;
@@ -172,9 +174,8 @@ button:disabled, #hit:disabled, #stay:disabled {
         grid-column-start: 1;
         grid-column-end: 4;
         display: flex;
-    
+        align-items: flex-end;
     }
-    
     
     
     #pScore, #cScore {
@@ -193,19 +194,21 @@ button:disabled, #hit:disabled, #stay:disabled {
     
     #hit {
         background-color: lightgreen;
-        border: 5px solid black;
+        border: 5px solid white;
         border-radius: 50%;
     }
     
     #stay {
         background-color: red;
-        border: 5px solid black;
+        border: 5px solid white;
     }
     
     
     
     #wagerAmount {
         font-size: 24px;
+        height: auto;
+        width: auto;
     }
     
     
