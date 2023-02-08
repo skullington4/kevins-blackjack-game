@@ -12,7 +12,7 @@ body {
 main {
     display: grid;
     grid-template-columns: 30vmin 30vmin 30vmin;
-    grid-template-rows: 5vmin 15rem 10vmin 15rem 3rem 10rem;
+    grid-template-rows: 5rem 15rem 12rem 15rem 3rem 10rem;
 }
 
 main * {
@@ -24,11 +24,11 @@ main * {
 
   button {
     justify-self: center;
-    width: 15vmin;
-    height: 4vmin;
+    width: 10vmin;
+    height: 10vmin;
     margin: 2vmin;
-    background-color: white;
-    color: black;
+    background-color: blue;
+    color: white;
     border: .25vmin solid black;
     border-radius: 100%;
     font-size: 2vmin;
@@ -71,12 +71,15 @@ div {
 }
 
 #placeWager {
-    height: 10vmin;
+    height: 10rem;
+    width: 10rem;
+    justify-self: center;
 }
 
 #hit {
     background-color: lightgreen;
     border: 5px solid black;
+    border-radius: 50%;
 }
 
 #stay {
@@ -84,12 +87,14 @@ div {
     border: 5px solid black;
 }
 
+
+
 #wagerAmount {
     font-size: 24px;
 }
 
 
-button:disabled, button[disabled] {
+button:disabled, #hit:disabled, #stay:disabled {
     border: 1px solid darkgray;
     background-color: gray;
     color: white;

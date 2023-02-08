@@ -19,7 +19,7 @@ let cBlackjack = null; // Comp blackjack boolean
 let stayed; // Boolean to mark when player hits stay button and moves to comp turn.
 let tempCard = []; // Holds the value of the face down card
 let newDeck; // Deck in use
-let compWin;
+let win;
 
 /*------------ cached elements --------------*/
 const winnerEl = document.getElementById('winnerDisplay');
@@ -69,7 +69,7 @@ function renderHand() {
     playerCardsEl.innerHTML = cardsHtml;
 
     // Display computers hand - players turn (first card down)
-    if (stayed || pBlackjack || cBlackjack || compWin) {
+    if (stayed || pBlackjack || cBlackjack || win) {
         cHand[0] = tempCard;
     }
     else if (!stayed && cHand.length > 0) {
@@ -176,7 +176,6 @@ function playHand() {
         checkDeck()
         cHand.push(newDeck.shift());
         tempCard = cHand[0];
-        console.log(tempCard);
         render();
     
         checkBlackjack();
@@ -279,6 +278,7 @@ function checkBlackjack() {
     } else if (pBlackjack) {
         winnerEl.innerText = "Player wins with blackjack!!!";
         money += wager*2.5;
+        win = true;
         startNoHitNoStay();
     } else if(cBlackjack) {
         winnerEl.innerText = "Computer wins with blackjack!!!";
@@ -322,24 +322,12 @@ function testingBJ() {
     cHand[0].value = 11;
     cHand[1].face = "sJ";
     cHand[1].value = 10;
+    tempCard = cHand[0];
 
     pHand[0].face = "sA";
     pHand[0].value = 11;
     pHand[1].face = "sA";
     pHand[1].value = 11;
     checkBlackjack();
-    render();
-}
-
-function testingTie() {
-    cHand[0].face = "sJ";
-    cHand[0].value = 10;
-    cHand[1].face = "sK";
-    cHand[1].value = 10;
-
-    pHand[0].face = "sJ";
-    pHand[0].value = 10;
-    pHand[1].face = "sK";
-    pHand[1].value = 10;
     render();
 }
