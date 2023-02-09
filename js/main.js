@@ -68,10 +68,6 @@ function render() {
         cardSize = SIZE.large;
     }
     renderHand();
-    renderScore();
-    // checkPlayerBust();
-    renderHand(); // Need this twice because we need to 
-    // // render hand to get score then check hand again for bust
     playerMoneyEl.innerText = `Player money: ${money}`;
 
     
@@ -79,35 +75,16 @@ function render() {
 
 
 function renderHand() {
-    // This function should interate through each players hand and display their cards
+    // This function should iterate through each players hand and display their cards
+    // And updates score
     playerCardsEl.innerHTML = '';
     let cardsHtml = '';
-    // Display player cards
+    // --------Player section------------
     pHand.forEach(function(card) {
       cardsHtml += `<div class="card ${card.face}${cardSize}"></div>`;
     });
     playerCardsEl.innerHTML = cardsHtml;
 
-    // Checks for any winning hands or if player stayed. 
-    // If any are true, we want to display both cards, otherwise keep first card down
-    if (stayed || pBlackjack || cBlackjack || win) {
-        cHand[0] = tempCard;
-    }
-    else if (!stayed && cHand.length > 0) {
-        cHand[0] = BACKCARD;
-    }
-
-    // Display computer hand
-        computerCardsEl.innerHTML = '';
-        cardsHtml = '';
-        cHand.forEach(function(card) {
-        cardsHtml += `<div class="card ${card.face}${cardSize}"></div>`;
-        });
-        computerCardsEl.innerHTML = cardsHtml;
-}
-
-
-function renderScore () {
     let i = numAces(pHand);
 
     // Player score section
@@ -135,8 +112,25 @@ function renderScore () {
         win = true;
         startNoHitNoStay()
     }
-    
-    //Computer score section
+
+    // Checks for any winning hands or if player stayed. 
+    // If any are true, we want to display both cards, otherwise keep first card down
+    if (stayed || pBlackjack || cBlackjack || win) {
+        cHand[0] = tempCard;
+    }
+    else if (!stayed && cHand.length > 0) {
+        cHand[0] = BACKCARD;
+    }
+
+    //  --------Computer section------------
+    computerCardsEl.innerHTML = '';
+    cardsHtml = '';
+    cHand.forEach(function(card) {
+    cardsHtml += `<div class="card ${card.face}${cardSize}"></div>`;
+    });
+    computerCardsEl.innerHTML = cardsHtml;
+
+        //Computer score section
     i = numAces(cHand);
 
     score.c = 0;
@@ -162,6 +156,9 @@ function renderScore () {
         computerScoreEl.innerText = score.c;
     }
 }
+
+
+
 
 function btnHitStayNoStart() {
     //This function is for disabling start and enabling hit and stay
@@ -207,9 +204,7 @@ function playHand() {
         pHand.push(newDeck.shift());
         checkDeck()
         cHand.push(newDeck.shift());
-        tempCard = cHand[0];
-        render();
-    
+        tempCard = cHand[0];    
         checkBlackjack();
         render();
     }
