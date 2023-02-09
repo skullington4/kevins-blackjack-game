@@ -59,8 +59,10 @@ div {
     grid-column-start: 1;
     grid-column-end: 4;
     display: flex;
-    align-items: flex-end;
+    align-items: flex-start;
 }
+
+
 
 #pScore, #cScore {
     grid-column-start: 3;
@@ -174,7 +176,7 @@ button:disabled, #hit:disabled, #stay:disabled {
         grid-column-start: 1;
         grid-column-end: 4;
         display: flex;
-        align-items: flex-end;
+        align-items: flex-start;
     }
     
     
@@ -203,7 +205,10 @@ button:disabled, #hit:disabled, #stay:disabled {
         border: 5px solid white;
     }
     
-    
+    #pCardHolder {
+        align-items: flex-end;
+        
+    }
     
     #wagerAmount {
         font-size: 24px;

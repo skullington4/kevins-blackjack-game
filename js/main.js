@@ -24,8 +24,8 @@ let stayed; // Boolean to mark when player hits stay button and moves to comp tu
 let tempCard = []; // Holds the value of the face down card
 let newDeck; // Deck in use
 let win;
-let windowHeight, windowWidth;
-let cardSize;
+let windowHeight, windowWidth; // Used to track screen size
+let cardSize; // Used to set the card size for bigger or smaller screen
 
 
 /*------------ cached elements --------------*/
@@ -69,9 +69,9 @@ function render() {
     }
     renderHand();
     renderScore();
-    checkPlayerBust();
+    // checkPlayerBust();
     renderHand(); // Need this twice because we need to 
-    // render hand to get score then check hand again for bust
+    // // render hand to get score then check hand again for bust
     playerMoneyEl.innerText = `Player money: ${money}`;
 
     
@@ -127,10 +127,18 @@ function renderScore () {
         }
     }
     playerScoreEl.innerText = score.p;
+
+    // Checks for player bust
+    if (score.p > 21) {
+        playerScoreEl.innerText += ": Bust!"
+        winnerEl.innerText = "Computer wins!";
+        win = true;
+        startNoHitNoStay()
+    }
     
+    //Computer score section
     i = numAces(cHand);
 
-    //Computer score section
     score.c = 0;
     cHand.forEach(function(card) {
         score.c += card.value;
@@ -246,16 +254,6 @@ function checkDeck() {
     if (newDeck.length === 0) {
         newDeck = new getNewShuffledDeck();
     }
-}
-
-function checkPlayerBust() {
-    if (score.p > 21) {
-        playerScoreEl.innerText += ": Bust!"
-        winnerEl.innerText = "Computer wins!";
-        win = true;
-        startNoHitNoStay()
-    }
-
 }
 
 function checkBlackjack() {
