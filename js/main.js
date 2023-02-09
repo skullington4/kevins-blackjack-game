@@ -54,7 +54,6 @@ function init() {
     newDeck = new getNewShuffledDeck();
     startNoHitNoStay();
     stayed = false;
-    console.log(windowWidth);
     render();
 }
 
@@ -179,12 +178,12 @@ function playHand() {
     // Checks to make sure wage is valid, deals first 4 cards, checks for blackjack,
     // then waits for player's next move
     wager = Number(wagerEl.value);
-    if (wager > money) {
+    if (typeof wager !== "number" || isNaN(wager)) {
+        winnerEl.innerText = "You must use numbers only!";
+    } else if (wager > money) {
         winnerEl.innerText = "You do not have enough money to place this bet!";
     } else if (wager <= 0) {
         winnerEl.innerText = "You must enter a bet!";
-    } else if (wager === NaN) {
-        winnerEl.innerText = "You must use numbers only!";
     }
     else {
         stayed = false;
