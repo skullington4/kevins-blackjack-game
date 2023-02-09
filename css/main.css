@@ -205,10 +205,6 @@ button:disabled, #hit:disabled, #stay:disabled {
         border: 5px solid white;
     }
     
-    #pCardHolder {
-        align-items: flex-end;
-        
-    }
     
     #wagerAmount {
         font-size: 24px;
