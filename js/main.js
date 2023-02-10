@@ -129,7 +129,7 @@ function renderHand() {
     });
     computerCardsEl.innerHTML = cardsHtml;
 
-        //Computer score section
+    //Computer score section
     i = numAces(cHand);
 
     score.c = 0;
