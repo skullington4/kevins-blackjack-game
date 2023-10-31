@@ -39,7 +39,6 @@ main {
   }
   
   button:hover {
-    background-color: black;
     color: white;
     cursor: pointer;
   }
@@ -67,9 +66,16 @@ div {
     width: 100vmin;
     justify-content: space-around;
     align-items: center;
-    padding-bottom: 10vmin;
+    
 }
 
+.gameButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding-bottom: 10vmin;
+}
 
 #pScore, #cScore {
     font-size: 4fr;
@@ -111,11 +117,29 @@ button:disabled, #hit:disabled, #stay:disabled {
     visibility: hidden;
 }
 
+#bet10 {
+    background-color: blue;
+}
+
+#bet50 {
+    background-color: orange;
+}
+
+#bet100 {
+    background-color: black;
+}
+
+#bet1000 {
+    background-color: yellow;
+    color: black;
+    border: 1px solid black;
+}
 
 
 @media (max-width: 600px) {
 
     main {
+        position: relative;
         display: flex;
         flex-direction: column;
         justify-content: start;
@@ -133,8 +157,8 @@ button:disabled, #hit:disabled, #stay:disabled {
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 20vmin;
-        height: 20vmin;
+        width: 15vmin;
+        height: 15vmin;
         margin: 2vmin;
         background-color: blue;
         color: white;
@@ -147,4 +171,18 @@ button:disabled, #hit:disabled, #stay:disabled {
     .cardHolder {
         height: 25vmin;
     }
+
+    .gameButtons {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .gameButtons button {
+        width: 15vmin;
+        height: 15vmin;
+    }
+
+
 } 

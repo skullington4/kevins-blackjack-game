@@ -39,18 +39,43 @@ const playerCardsEl = document.getElementById('pCardHolder');
 const hitButton = document.getElementById('hit');
 const stayButton = document.getElementById('stay');
 const startButton = document.getElementById('placeWager');
+const bet10Button = document.getElementById('bet10');
+const bet50Button = document.getElementById('bet50');
+const bet100Button = document.getElementById('bet100');
+const bet1000Button = document.getElementById('bet1000');
+const resetButton = document.getElementById('reset');
 
 
 /*------------ Event listeners --------------*/
 startButton.addEventListener('click', playHand);
 hitButton.addEventListener('click', handleHit);
 stayButton.addEventListener('click', handleStay);
+bet10Button.addEventListener('click', function() {
+    wagerEl.value = 10;
+    playHand();
+});
+bet50Button.addEventListener('click', function() {
+    wagerEl.value = 50;
+    playHand();
+});
+bet100Button.addEventListener('click', function() {
+    wagerEl.value = 100;
+    playHand();
+});
+bet1000Button.addEventListener('click', function() {
+    wagerEl.value = 1000;
+    playHand();
+});
+resetButton.addEventListener('click', init);
 
 /*------------ Functions --------------*/
 init();
 
 function init() {
     money = 5000;
+    wager = 0;
+    pHand = [];
+    cHand = [];
     newDeck = new getNewShuffledDeck();
     startNoHitNoStay();
     stayed = false;
@@ -161,6 +186,11 @@ function btnHitStayNoStart() {
     hitButton.removeAttribute('disabled', 'disabled');
     stayButton.removeAttribute('disabled', 'disabled');
     startButton.setAttribute('disabled', 'disabled');
+    bet10Button.setAttribute('disabled', 'disabled');
+    bet50Button.setAttribute('disabled', 'disabled');
+    bet100Button.setAttribute('disabled', 'disabled');
+    bet1000Button.setAttribute('disabled', 'disabled');
+
 }
 
 function startNoHitNoStay() {
@@ -168,6 +198,10 @@ function startNoHitNoStay() {
     hitButton.setAttribute('disabled', 'disabled');
     stayButton.setAttribute('disabled', 'disabled');
     startButton.removeAttribute('disabled', 'disabled');
+    bet10Button.removeAttribute('disabled', 'disabled');
+    bet50Button.removeAttribute('disabled', 'disabled');
+    bet100Button.removeAttribute('disabled', 'disabled');
+    bet1000Button.removeAttribute('disabled', 'disabled');
 }
 
 function playHand() {
@@ -237,7 +271,7 @@ function handleStay() {
         money = Number(money) + Number(wager);
     }
     render();
-    startButton.removeAttribute('disabled', 'disabled');
+    startNoHitNoStay();
 }   
 
 function checkDeck() {
