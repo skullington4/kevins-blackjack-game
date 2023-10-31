@@ -13,19 +13,30 @@
 <body>
     <main>
         <div class="blackjackTitle">BLACKJACK</div>
-        
-        <div id="cName">Dealer</div>
-        <div id="cScore"></div>
+        <div class="dealersSide">
+            <div id="cName">Dealer: </div>
+            <div id="cScore"></div>
+        </div>
         <section class="cardHolder" id="cCardHolder"></section>
-        <button id="hit">Hit!</button>
-        <div id="winnerDisplay"></div>
-        <button id="stay">Stay!</button>
+        <div class="middleSection">
+            <button id="hit">Hit!</button>
+            <div id="winnerDisplay"></div>
+            <button id="stay">Stay!</button>
+        </div>
         <section class="cardHolder" id = "pCardHolder"></section>
-        <div id="pName">Player</div>
-        <div id="pScore"></div>
-        <div id="pMoney"></div>
-        <input type="text" id="wagerAmount" placeHolder="Enter bet!">
-        <button id="placeWager">Place wager and start hand</button>
+        <div class="playersSide">
+            <div id="pName">Player: </div>
+            <div id="pScore"></div>
+        </div>
+        <div class="money">
+            <div>
+                <div id="pMoney"></div>
+            </div>
+            <div class="cashBet">
+                <input type="text" id="wagerAmount" placeHolder="Enter bet!">
+                <button id="placeWager">Place wager and start hand</button>
+            </div>
+        </div>
 
         </section>
     </main>

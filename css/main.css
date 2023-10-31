@@ -4,23 +4,23 @@
 
 body {
     height: 100vh;
-    flex-direction: row;
-    flex-flow: wrap;
     background-color: darkgreen;
 }
 
 main {
-    display: grid;
-    grid-template-columns: 30vmin 30vmin 30vmin;
-    grid-template-rows: 7vmin 7vmin 15vmin 12rem 15vmin 7vmin 10rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+
 }
 
-main * {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-  }
-
+.blackjackTitle {
+    font-size: 6vmin;
+    color: black;
+}
 
   button {
     justify-self: center;
@@ -51,29 +51,26 @@ div {
     font-size: 5vmin;
     display: flex;
     justify-content: center;
-    align-items: center;
-    
+    align-items: center; 
 }
 
 
-#cName, #pName {
-    grid-column-start: 1;
-    grid-column-end: 2;
-}
 
 .cardHolder {
-    background-color: green;
-    grid-column-start: 1;
-    grid-column-end: 4;
     display: flex;
     align-items: flex-start;
+    height: 20vmin;
 }
 
+.money {
+    display: flex;
+    width: 100vmin;
+    justify-content: space-around;
+    align-items: center;
+}
 
 
 #pScore, #cScore {
-    grid-column-start: 3;
-    grid-column-end: 4;
     font-size: 4fr;
 }
 
@@ -96,8 +93,10 @@ div {
 }
 
 #wagerAmount {
-    font-size: 24px;
-    height: auto;
+    font-size: 3vmin;
+    height: 7vmin;
+    width: 20vmin;
+    text-align: center;
 }
 
 
@@ -112,7 +111,7 @@ button:disabled, #hit:disabled, #stay:disabled {
 }
 
 
-
+/* 
 @media (max-width: 900px) {
 
     
@@ -159,11 +158,8 @@ button:disabled, #hit:disabled, #stay:disabled {
     }
     
     .blackjackTitle {
-        grid-column-start: 1;
-        grid-column-end: 4;
         font-size: 6vmin;
         color: black;
-
     }
     #cName, #pName {
         grid-column-start: 1;
@@ -226,3 +222,4 @@ button:disabled, #hit:disabled, #stay:disabled {
 
 
 }
+ */
