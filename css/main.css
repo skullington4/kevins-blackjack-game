@@ -115,14 +115,26 @@ button:disabled, #hit:disabled, #stay:disabled {
 
 @media (max-width: 600px) {
 
+    main {
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+        height: 100vh;
+        width: 100vw;
+
+    }
     
+    div {
+        padding: 1.25vmin
+    }
     button {
         justify-self: center;
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 15vmin;
-        height: 15vmin;
+        width: 20vmin;
+        height: 20vmin;
         margin: 2vmin;
         background-color: blue;
         color: white;
@@ -132,5 +144,7 @@ button:disabled, #hit:disabled, #stay:disabled {
         outline: none;
       }
  
-
+    .cardHolder {
+        height: 25vmin;
+    }
 }
