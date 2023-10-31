@@ -2,7 +2,7 @@
 .card {
   box-sizing: border-box;
   display: inline-block;
-  margin: 5px 5px 50px 5px;
+  margin: 5px 5px 5px 5px;
   cursor: pointer;
   /* Set the card's dimensions, and size it relative to
      it's font size. */
@@ -346,3 +346,11 @@
   .card.east.shadow,
   .card.E.shadow {
     box-shadow: -2px 2px 3px 0 rgba(41, 41, 41, 0.75); }
+
+
+@media (max-width: 600px) {
+  .card {
+    width: 15vmin;
+    height: 20vmin;
+  }
+}
