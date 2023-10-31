@@ -67,8 +67,7 @@ function render() {
         cardSize = SIZE.large;
     }
     renderHand();
-    playerMoneyEl.innerText = `Player money: ${money}`;
-
+    playerMoneyEl.innerText = `$${money}`;
     
 }
 
@@ -155,8 +154,6 @@ function renderHand() {
         computerScoreEl.innerText = score.c;
     }
 }
-
-
 
 
 function btnHitStayNoStart() {

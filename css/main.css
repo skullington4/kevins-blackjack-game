@@ -24,6 +24,9 @@ main * {
 
   button {
     justify-self: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 10vmin;
     height: 10vmin;
     margin: 2vmin;
@@ -45,7 +48,11 @@ main * {
 div {
     background-color: darkgreen;
     color: white;
-    font-size: 24px;
+    font-size: 5vmin;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
 }
 
 
@@ -106,19 +113,8 @@ button:disabled, #hit:disabled, #stay:disabled {
 
 
 
-@media (min-width: 768px) {
+@media (max-width: 900px) {
 
-
-    * {
-        box-sizing: border-box;
-    }
-    
-    body {
-        height: 100vh;
-        flex-direction: row;
-        flex-flow: wrap;
-        background-color: darkgreen;
-    }
     
     main {
         display: grid;
@@ -135,6 +131,9 @@ button:disabled, #hit:disabled, #stay:disabled {
     
       button {
         justify-self: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         width: 10vmin;
         height: 10vmin;
         margin: 2vmin;
@@ -156,7 +155,7 @@ button:disabled, #hit:disabled, #stay:disabled {
     div {
         background-color: darkgreen;
         color: white;
-        font-size: 24px;
+        font-size: 5vmin;
     }
     
     .blackjackTitle {
